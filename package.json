@@ -22,8 +22,12 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "plugin:react-hooks/recommended"
-    ]
+      "plugin:react-hooks/recommended",
+      "prettier"
+    ],
+    "env": {
+      "es2021": true
+    }
   },
   "browserslist": {
     "production": [
@@ -39,6 +43,7 @@
   },
   "devDependencies": {
     "eslint-config-prettier": "^8.2.0",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.2.1"
   }
 }
