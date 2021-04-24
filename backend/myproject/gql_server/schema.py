@@ -40,7 +40,7 @@ class CreateTask(graphene.Mutation):
 
 
 class Mutation(graphene.ObjectType):
-  create_user = CreateTask.Field()
+  create_task = CreateTask.Field()
 
 schema = graphene.Schema(
   query=Query,
