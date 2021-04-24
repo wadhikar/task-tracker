@@ -2,18 +2,11 @@ import { useState } from 'react';
 
 import Header from './components/Header';
 import Tasks from './components/Tasks';
-import AddTask from './components/AddTask';
+import AddTaskForm from './components/AddTaskForm';
 
 function App() {
-  const [showAddTask, setShowAddTask] = useState(false);
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: 'Make Lunch',
-      day: 'Apr 22nd at 11:30am',
-      reminder: false,
-    },
-  ]);
+  const [showAddTaskForm, setShowAddTaskForm] = useState(false);
+  const [tasks, setTasks] = useState([]);
 
   // Add Task
   const addTask = (task) => {
@@ -22,11 +15,13 @@ function App() {
     setTasks([...tasks, newTask]);
   };
 
+  // TODO: Reflect Delete in GraphQL
   // Delete Task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
+  // TODO: Reflect Reminder Toggle in GraphQL
   const toggleReminder = (id) => {
     setTasks(
       tasks.map((task) =>
@@ -36,7 +31,7 @@ function App() {
   };
 
   const toggleShowAddForm = () => {
-    setShowAddTask(!showAddTask);
+    setShowAddTaskForm(!showAddTaskForm);
   };
 
   return (
@@ -44,14 +39,10 @@ function App() {
       <Header
         title='Task Tracker'
         onAdd={toggleShowAddForm}
-        showAdd={showAddTask}
+        showAdd={showAddTaskForm}
       />
-      {showAddTask && <AddTask onAdd={addTask} />}
-      {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
-      ) : (
-        'No Tasks to show'
-      )}
+      {showAddTaskForm && <AddTaskForm onAdd={addTask} />}
+      <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
     </div>
   );
 }

@@ -7,7 +7,9 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "apollo-boost": "^0.4.9",
     "graphql": "^15.5.0",
+    "graphql-tag": "^2.11.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
@@ -29,7 +31,10 @@
     ],
     "env": {
       "es2021": true
-    }
+    },
+    "plugins": [
+      "graphql"
+    ]
   },
   "browserslist": {
     "production": [
@@ -45,6 +50,7 @@
   },
   "devDependencies": {
     "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-graphql": "^4.0.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.2.1"
   }
