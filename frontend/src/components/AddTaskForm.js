@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
+
+import formatDate from '../util/formatDate';
 
 const ADD_TASK = gql`
   mutation createTask($text: String!, $day: Date, $reminder: Boolean) {
@@ -15,10 +20,11 @@ const ADD_TASK = gql`
 
 const AddTaskForm = ({ onAdd }) => {
   const [textState, setTextState] = useState('');
-  const [dateState, setDateState] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [formattedDate, setFormattedDate] = useState(formatDate(date));
   const [reminderState, setReminderState] = useState(false);
 
-  let text, day, reminder;
+  let text, reminder;
 
   const [addTask] = useMutation(ADD_TASK);
 
@@ -30,27 +36,26 @@ const AddTaskForm = ({ onAdd }) => {
       return;
     }
 
-    // TODO: Ensure date input is valid
-    // Currently only checks if it has any value at all
-    if (!dateState) {
-      alert('Please choose a date!');
-      return;
-    }
-
     addTask({
       variables: {
         text: text.value,
-        day: day.value,
+        day: formattedDate,
         reminder: reminderState,
       },
     });
 
     setReminderState(false);
     text.value = '';
-    day.value = '';
   };
 
-  // TODO: Use DatePicker package for better date input
+  const dateSelected = (date) => {
+    const formattedDate = formatDate(date);
+    console.log(formattedDate);
+    setFormattedDate(formattedDate);
+    setDate(date);
+  };
+
+  // TODO: #1 Use DatePicker package for better date input
 
   return (
     <form className='add-form' onSubmit={onSubmit}>
@@ -65,13 +70,11 @@ const AddTaskForm = ({ onAdd }) => {
         />
       </div>
       <div className='form-control'>
-        <label>Date (YYYY-MM-DD)</label>
-        <input
-          ref={(node) => {
-            day = node;
-          }}
-          placeholder='Choose Date'
-          onChange={(e) => setDateState(e.target.value)}
+        <label>Date</label>
+        <DatePicker
+          selected={date}
+          onChange={dateSelected}
+          dateFormat='Y-MM-dd'
         />
       </div>
       <div className='form-control form-control-check'>
