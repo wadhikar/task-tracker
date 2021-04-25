@@ -24,7 +24,7 @@ const AddTaskForm = () => {
   const [formattedDate, setFormattedDate] = useState(formatDate(date));
   const [reminderState, setReminderState] = useState(false);
 
-  let text, reminder;
+  let text;
 
   const [addTask] = useMutation(ADD_TASK);
 
@@ -79,11 +79,10 @@ const AddTaskForm = () => {
         <label>Set Reminder</label>
         <input
           type='checkbox'
-          checked={reminder}
-          value={reminder}
+          checked={reminderState}
+          value={reminderState}
           onChange={(e) => {
             setReminderState(e.currentTarget.checked);
-            reminder = reminderState;
           }}
         />
       </div>

@@ -14,7 +14,7 @@ const QUERY_TASKS = gql`
   }
 `;
 
-const Tasks = ({ onToggle }) => {
+const Tasks = () => {
   const { data, loading } = useQuery(QUERY_TASKS, {
     pollInterval: 1000,
   });
@@ -26,7 +26,7 @@ const Tasks = ({ onToggle }) => {
       {data && (
         <>
           {data.tasks.map((task) => (
-            <Task key={task.id} task={task} onToggle={onToggle} />
+            <Task key={task.id} task={task} />
           ))}
         </>
       )}

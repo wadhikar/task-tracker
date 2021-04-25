@@ -12,8 +12,20 @@ const DELETE_TASK = gql`
   }
 `;
 
-const Task = ({ task, onToggle }) => {
+const UPDATE_TASK = gql`
+  mutation updateReminderMutation($id: ID!) {
+    updateTask(id: $id) {
+      task {
+        id
+        reminder
+      }
+    }
+  }
+`;
+
+const Task = ({ task }) => {
   const [deleteTask] = useMutation(DELETE_TASK);
+  const [updateReminderToggle] = useMutation(UPDATE_TASK);
 
   const onDeleteTask = (id) => {
     deleteTask({
@@ -23,17 +35,21 @@ const Task = ({ task, onToggle }) => {
     });
   };
 
+  const toggleReminder = (id) => {
+    updateReminderToggle({
+      variables: {
+        id: id,
+      },
+    });
+  };
+
   return (
     <div
       className={`task ${task.reminder ? 'reminder' : ''}`}
-      onDoubleClick={() => onToggle(task.id)}
+      onDoubleClick={() => toggleReminder(task.id)}
     >
       <h3>
         {task.text}
-        {/* <FaTimes
-          style={{ color: 'red', cursor: 'pointer' }}
-          onClick={() => onDelete(task.id)}
-        /> */}
         <FaTimes
           style={{ color: 'red', cursor: 'pointer' }}
           onClick={() => onDeleteTask(task.id)}
