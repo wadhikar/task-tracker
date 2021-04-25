@@ -7,5 +7,5 @@ I like to organize my day by keeping a list of the tasks I need to do. I've used
 ## Plan
 - ~~Create a frontend UI using React~~
 - Create a backend that:
-    - Saves tasks in a database
+    - ~~Saves tasks in a database~~
     - Has user functionality (login, own tasks, etc)
