@@ -16,6 +16,12 @@ class Query(graphene.ObjectType):
     return TaskModel.objects.all()
     
 
+class TaskInput(graphene.InputObjectType):
+  id = graphene.ID()
+  text = graphene.String()
+  day = graphene.Date()
+  reminder = graphene.Boolean()
+
 class CreateTask(graphene.Mutation):
   id = graphene.ID()
   text = graphene.String()
@@ -38,7 +44,6 @@ class CreateTask(graphene.Mutation):
       reminder = task.reminder,
     )
 
-# TODO: #4 Delete Task Mutation
 class DeleteTask(graphene.Mutation):
   class Arguments:
     id = graphene.ID()
@@ -51,11 +56,27 @@ class DeleteTask(graphene.Mutation):
 
     return None
 
-# TODO: Update Task Mutation
+class UpdateTask(graphene.Mutation):
+  class Arguments:
+    id = graphene.ID()
+  
+  task = graphene.Field(TaskType)
+
+  def mutate(self, info, id):
+    task_instance = TaskModel.objects.get(id=id)
+
+    if task_instance:
+      task_instance.reminder = not task_instance.reminder
+      task_instance.save()
+
+      return UpdateTask(task=task_instance)
+      
+    return UpdateTask(task=None)
 
 class Mutation(graphene.ObjectType):
   create_task = CreateTask.Field()
   delete_task = DeleteTask.Field()
+  update_task = UpdateTask.Field()
 
 schema = graphene.Schema(
   query=Query,
