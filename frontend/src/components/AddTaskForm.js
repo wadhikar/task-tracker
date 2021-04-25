@@ -18,7 +18,7 @@ const ADD_TASK = gql`
   }
 `;
 
-const AddTaskForm = ({ onAdd }) => {
+const AddTaskForm = () => {
   const [textState, setTextState] = useState('');
   const [date, setDate] = useState(new Date());
   const [formattedDate, setFormattedDate] = useState(formatDate(date));
@@ -54,8 +54,6 @@ const AddTaskForm = ({ onAdd }) => {
     setFormattedDate(formattedDate);
     setDate(date);
   };
-
-  // TODO: #1 Use DatePicker package for better date input
 
   return (
     <form className='add-form' onSubmit={onSubmit}>
