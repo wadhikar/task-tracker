@@ -38,9 +38,24 @@ class CreateTask(graphene.Mutation):
       reminder = task.reminder,
     )
 
+# TODO: #4 Delete Task Mutation
+class DeleteTask(graphene.Mutation):
+  class Arguments:
+    id = graphene.ID()
+
+  task = graphene.Field(TaskType)
+
+  def mutate(self, info, id):
+    task_instance = TaskModel.objects.get(id=id)
+    task_instance.delete()
+
+    return None
+
+# TODO: Update Task Mutation
 
 class Mutation(graphene.ObjectType):
   create_task = CreateTask.Field()
+  delete_task = DeleteTask.Field()
 
 schema = graphene.Schema(
   query=Query,
