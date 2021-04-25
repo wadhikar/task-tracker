@@ -6,10 +6,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// const httpLink = createHttpLink({
-//   uri: 'http://localhost:8000/graphql/',
-// });
-
 const client = new ApolloClient({
   uri: 'http://localhost:8000/graphql',
   cache: new InMemoryCache(),
