@@ -1,6 +1,28 @@
 import { FaTimes } from 'react-icons/fa';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
 
-const Task = ({ task, onDelete, onToggle }) => {
+const DELETE_TASK = gql`
+  mutation deleteMutation($id: ID!) {
+    deleteTask(id: $id) {
+      task {
+        id
+      }
+    }
+  }
+`;
+
+const Task = ({ task, onToggle }) => {
+  const [deleteTask] = useMutation(DELETE_TASK);
+
+  const onDeleteTask = (id) => {
+    deleteTask({
+      variables: {
+        id: id,
+      },
+    });
+  };
+
   return (
     <div
       className={`task ${task.reminder ? 'reminder' : ''}`}
@@ -8,9 +30,13 @@ const Task = ({ task, onDelete, onToggle }) => {
     >
       <h3>
         {task.text}
-        <FaTimes
+        {/* <FaTimes
           style={{ color: 'red', cursor: 'pointer' }}
           onClick={() => onDelete(task.id)}
+        /> */}
+        <FaTimes
+          style={{ color: 'red', cursor: 'pointer' }}
+          onClick={() => onDeleteTask(task.id)}
         />
       </h3>
       <p>{task.day}</p>
